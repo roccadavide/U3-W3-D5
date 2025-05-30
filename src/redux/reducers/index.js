@@ -22,9 +22,10 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         favorites: {
           ...state.favorites,
-          content: [...state.favorites.content.slice(0, action.payload).concat(state.favorites.content.slice(action.payload + 1))],
+          content: state.favorites.content.filter(track => track.id !== action.payload.id),
         },
       };
+
     default:
       console.log("DEFAULT");
       return state;

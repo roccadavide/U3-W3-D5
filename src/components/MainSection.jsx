@@ -36,7 +36,7 @@ const MainSection = () => {
         <Row>
           <Col xs={10}>
             <div id="rock">
-              <h2>Rock Classics</h2>
+              <h2>Rock</h2>
               <Row xs={1} sm={2} lg={3} xl={4} className="imgLinks py-3" id={"rockSection"}>
                 {hasError ? (
                   <Alert variant="danger">{errorMessage || "Errore nel caricamento dei brani"}</Alert>
@@ -45,20 +45,34 @@ const MainSection = () => {
                     <Spinner animation="border" variant="primary" />
                   </div>
                 ) : rock && rock.length > 0 ? (
-                  rock.slice(0, 4).map(track => (
-                    <Col key={track.id} className="text-center mb-4" style={{ cursor: "pointer" }} onClick={() => dispatch(selectSongAction(track))}>
-                      <div className="position-relative d-inline-block">
-                        <img src={track.album.cover_medium} alt={track.title} className="img-fluid" style={{ display: "block" }} />
-                        <div className="heartContainer">
-                          <BsHeart size={20} className="position-absolute" style={{ bottom: "10px", right: "13px", color: "white" }} />
+                  rock.slice(0, 4).map(track => {
+                    const isFavorite = favorites?.length && favorites.find(fav => fav.id === track.id);
+                    return (
+                      <Col key={track.id} className="text-center mb-4" style={{ cursor: "pointer" }} onClick={() => dispatch(selectSongAction(track))}>
+                        <div className="imageWrapper position-relative d-inline-block">
+                          <img src={track.album.cover_medium} alt={track.title} className="img-fluid rounded" />
+                          <div className="heartContainer d-flex align-items-center justify-content-center">
+                            <BsHeart
+                              size={16}
+                              style={{ color: isFavorite ? "red" : "white", cursor: "pointer" }}
+                              onClick={e => {
+                                e.preventDefault();
+                                if (isFavorite) {
+                                  dispatch(removeFromFavoritesAction(track));
+                                } else {
+                                  dispatch(addToFavoritesAction(track));
+                                }
+                              }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <p className="mt-2">
-                        <strong>Track:</strong> {track.title} <br />
-                        <strong>Artist:</strong> {track.artist.name}
-                      </p>
-                    </Col>
-                  ))
+                        <p className="mt-2">
+                          <strong>Track:</strong> {track.title} <br />
+                          <strong>Artist:</strong> {track.artist.name}
+                        </p>
+                      </Col>
+                    );
+                  })
                 ) : (
                   <Alert variant="warning">Nessun brano trovato.</Alert>
                 )}
@@ -69,7 +83,7 @@ const MainSection = () => {
         <Row>
           <Col xs={10}>
             <div id="pop">
-              <h2>Pop Culture</h2>
+              <h2>Pop</h2>
               <Row xs={1} sm={2} lg={3} xl={4} className="imgLinks py-3" id={"popSection"}>
                 {hasError ? (
                   <Alert variant="danger">{errorMessage || "Errore nel caricamento dei brani"}</Alert>
@@ -80,18 +94,31 @@ const MainSection = () => {
                 ) : pop && pop.length > 0 ? (
                   pop.slice(0, 4).map(track => {
                     const isFavorite = favorites?.length && favorites.find(fav => fav.id === track.id);
-                    <Col key={track.id} className="text-center mb-4" style={{ cursor: "pointer" }} onClick={() => dispatch(selectSongAction(track))}>
-                      <div className="position-relative d-inline-block">
-                        <img src={track.album.cover_medium} alt={track.title} className="img-fluid" style={{ display: "block" }} />
-                        <div className="heartContainer">
-                          <BsHeart size={20} className="position-absolute" style={{ bottom: "10px", right: "13px", color: "white" }} />
+                    return (
+                      <Col key={track.id} className="text-center mb-4" style={{ cursor: "pointer" }} onClick={() => dispatch(selectSongAction(track))}>
+                        <div className="imageWrapper position-relative d-inline-block">
+                          <img src={track.album.cover_medium} alt={track.title} className="img-fluid rounded" />
+                          <div className="heartContainer d-flex align-items-center justify-content-center">
+                            <BsHeart
+                              size={16}
+                              style={{ color: isFavorite ? "red" : "white", cursor: "pointer" }}
+                              onClick={e => {
+                                e.preventDefault();
+                                if (isFavorite) {
+                                  dispatch(removeFromFavoritesAction(track));
+                                } else {
+                                  dispatch(addToFavoritesAction(track));
+                                }
+                              }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <p className="mt-2">
-                        <strong>Track:</strong> {track.title} <br />
-                        <strong>Artist:</strong> {track.artist.name}
-                      </p>
-                    </Col>;
+                        <p className="mt-2">
+                          <strong>Track:</strong> {track.title} <br />
+                          <strong>Artist:</strong> {track.artist.name}
+                        </p>
+                      </Col>
+                    );
                   })
                 ) : (
                   <Alert variant="warning">Nessun brano trovato.</Alert>

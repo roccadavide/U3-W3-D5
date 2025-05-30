@@ -9,7 +9,7 @@ export const HAS_ERROR_OFF = "HAS_ERROR_OFF";
 export const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE";
 
 export const addToFavoritesAction = song => ({ type: ADD_TO_FAVORITES, payload: song });
-export const removeFromFavoritesAction = index => ({ type: REMOVE_FROM_FAVORITES, payload: index });
+export const removeFromFavoritesAction = track => ({ type: REMOVE_FROM_FAVORITES, payload: track });
 export const selectSongAction = track => ({ type: SELECT_SONG, payload: track });
 
 export const fillMusicSection = (endpoint, artistName, sectionId) => {
